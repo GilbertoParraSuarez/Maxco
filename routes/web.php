@@ -55,6 +55,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('products/{product}/toggle', [ProductsController::class, 'toggle'])->name('products.toggle');
 
     Route::resource('sales',     SalesController::class);
+    Route::post('sales/{sale}/cancel', [SalesController::class, 'cancel'])->name('sales.cancel');
 
     // Perfil
     Route::get('/profile',  [ProfileController::class, 'edit'])->name('profile.edit');
