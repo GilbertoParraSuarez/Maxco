@@ -44,8 +44,8 @@ const showingNavigationDropdown = ref(false);
                                 class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"
                             >
                                 <NavLink
-  :href="route('customers')"
-  :active="route().current('customers')"
+:href="route('customers.index')"
+:active="route().current('customers.*')"
 >
   Customers
 </NavLink>
@@ -159,8 +159,8 @@ const showingNavigationDropdown = ref(false);
                     </div>
 
                     <ResponsiveNavLink
-  :href="route('customers')"
-  :active="route().current('customers')"
+:href="route('customers.index')"
+:active="route().current('customers.*')"
 >
   Customers
 </ResponsiveNavLink>
