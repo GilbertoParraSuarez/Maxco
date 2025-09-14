@@ -6,7 +6,8 @@ use App\Http\Controllers\{
     VendorsController,
     ZonesController,
     ProductsController,
-    SalesController
+    SalesController,
+    DashboardController
 };
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -36,8 +37,9 @@ require __DIR__.'/auth.php';
 Route::middleware(['auth', 'verified'])->group(function () {
 
     // Dashboard
-    Route::get('/dashboard', fn () => Inertia::render('Dashboard'))
-        ->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+  ->middleware(['auth', 'verified'])
+  ->name('dashboard');
 
     // Recursos con controladores (Inertia)
     Route::resource('customers', CustomersController::class);
