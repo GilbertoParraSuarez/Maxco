@@ -4,24 +4,23 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
-        Schema::create('products', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+return new class extends Migration {
+    public function up(): void {
+        Schema::create('products', function (Blueprint $t) {
+            $t->id('id_producto');                       // PK (ANEXO)
+            $t->string('nombre');                        // (ANEXO)
+            $t->text('descripcion')->nullable();         // (ANEXO)
+            $t->decimal('precio', 12, 2);                // (ANEXO)
+            $t->unsignedInteger('stock')->default(0);    // (ANEXO)
+            $t->string('categoria')->nullable();         // (ANEXO)
+            // Esenciales:
+            $t->string('sku', 50)->nullable()->unique();
+            $t->boolean('activo')->default(true);
+            $t->timestamps();
+            $t->softDeletes();
+
+            $t->index(['nombre','categoria']);
         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('products');
-    }
+    public function down(): void { Schema::dropIfExists('products'); }
 };

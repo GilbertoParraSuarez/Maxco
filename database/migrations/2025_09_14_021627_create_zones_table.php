@@ -4,24 +4,19 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
-        Schema::create('zones', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+return new class extends Migration {
+    public function up(): void {
+        Schema::create('zones', function (Blueprint $t) {
+            $t->id('id_zona');                    // PK (ANEXO)
+            $t->string('nombre_zona');            // requerido (ANEXO)
+            $t->string('descripcion')->nullable();// opcional (ANEXO)
+            // Esenciales:
+            $t->boolean('activo')->default(true);
+            $t->timestamps();
+            $t->softDeletes();
+
+            $t->unique('nombre_zona');
         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('zones');
-    }
+    public function down(): void { Schema::dropIfExists('zones'); }
 };
