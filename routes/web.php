@@ -47,8 +47,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('vendors',   VendorsController::class);
     Route::post('vendors/{vendor}/toggle', [VendorsController::class, 'toggle'])
     ->name('vendors.toggle');
+
     Route::resource('zones',     ZonesController::class);
+    Route::post('zones/{zone}/toggle', [ZonesController::class, 'toggle'])->name('zones.toggle');
+
     Route::resource('products',  ProductsController::class);
+    Route::post('products/{product}/toggle', [ProductsController::class, 'toggle'])->name('products.toggle');
+
     Route::resource('sales',     SalesController::class);
 
     // Perfil
