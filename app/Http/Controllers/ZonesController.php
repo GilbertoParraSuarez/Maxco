@@ -10,7 +10,13 @@ class ZonesController extends Controller
 {
     public function index()
     {
-        $zones = Zone::latest()->paginate(10);
+        // Solo zonas activas en el listado
+        $zones = Zone::where('activo', true)
+            ->latest()
+            ->paginate(10)
+            ->withQueryString()
+            ->onEachSide(1);
+
         return Inertia::render('Zones/Index', ['zones' => $zones]);
     }
 
@@ -25,7 +31,8 @@ class ZonesController extends Controller
             'nombre_zona' => 'required|string|max:255|unique:zones,nombre_zona',
             'descripcion' => 'nullable|string|max:255',
         ]);
-        Zone::create($data);
+
+        Zone::create($data + ['activo' => true]);
 
         return redirect()->route('zones.index')->with('success','Zona creada correctamente');
     }
@@ -41,6 +48,7 @@ class ZonesController extends Controller
             'nombre_zona' => 'required|string|max:255|unique:zones,nombre_zona,'.$zone->id_zona.',id_zona',
             'descripcion' => 'nullable|string|max:255',
         ]);
+
         $zone->update($data);
 
         return redirect()->route('zones.index')->with('success','Zona actualizada correctamente');
@@ -50,5 +58,14 @@ class ZonesController extends Controller
     {
         $zone->delete();
         return redirect()->route('zones.index')->with('success','Zona eliminada');
+    }
+
+    /** Activar/Desactivar zona */
+    public function toggle(Zone $zone)
+    {
+        $zone->activo = ! $zone->activo;
+        $zone->save();
+
+        return back()->with('success', $zone->activo ? 'Zona activada' : 'Zona desactivada');
     }
 }
