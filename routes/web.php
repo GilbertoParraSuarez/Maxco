@@ -41,7 +41,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Recursos con controladores (Inertia)
     Route::resource('customers', CustomersController::class);
+    Route::post('customers/{customer}/toggle', [CustomersController::class, 'toggle'])
+    ->name('customers.toggle');
+
     Route::resource('vendors',   VendorsController::class);
+    Route::post('vendors/{vendor}/toggle', [VendorsController::class, 'toggle'])
+    ->name('vendors.toggle');
     Route::resource('zones',     ZonesController::class);
     Route::resource('products',  ProductsController::class);
     Route::resource('sales',     SalesController::class);

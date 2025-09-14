@@ -1,20 +1,23 @@
 <?php
 
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Vendor extends Model {
+class Vendor extends Model
+{
     use SoftDeletes;
 
     protected $table = 'vendors';
     protected $primaryKey = 'id_vendedor';
-    public $incrementing = true;
-    protected $keyType = 'int';
+    public $timestamps = true;
 
-    protected $fillable = ['nombre','email','telefono','activo'];
+    protected $fillable = [
+        'nombre', 'email', 'telefono', 'direccion', 'identificacion', 'activo',
+    ];
 
-    public function sales() {
-        return $this->hasMany(Sale::class, 'id_vendedor', 'id_vendedor');
-    }
+    protected $casts = [
+        'activo' => 'boolean',
+    ];
 }

@@ -1,11 +1,8 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import { Head, Link, useForm } from '@inertiajs/vue3'
-import {
-  UsersIcon,
-  ChevronLeftIcon
-} from '@heroicons/vue/24/outline'
 import { computed } from 'vue'
+import Swal from 'sweetalert2'
 
 const props = defineProps({
   customer: {
@@ -36,7 +33,37 @@ const form = useForm({
 })
 
 const submit = () => {
-  form.put(route('customers.update', customerSafe.value.id_cliente))
+  form.put(route('customers.update', customerSafe.value.id_cliente), {
+    onSuccess: () => {
+      Swal.fire({
+        title: '¡Cambios guardados!',
+        text: 'El cliente ha sido actualizado correctamente.',
+        icon: 'success',
+        confirmButtonText: 'Aceptar',
+        confirmButtonColor: '#4F46E5'
+      }).then(() => {
+        // Redirigir al listado tras confirmar
+        window.location.href = route('customers.index')
+      })
+    },
+    onError: () => {
+      // Muestra el primer error disponible o un mensaje genérico
+      const firstError =
+        form.errors.nombre ||
+        form.errors.email ||
+        form.errors.telefono ||
+        form.errors.direccion ||
+        'No se pudo actualizar el cliente. Verifique los datos e inténtelo nuevamente.'
+
+      Swal.fire({
+        title: 'Error al actualizar',
+        text: firstError,
+        icon: 'error',
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: '#DC2626'
+      })
+    }
+  })
 }
 
 /** Monograma para avatar */
@@ -48,8 +75,6 @@ const initial = computed(() =>
 <template>
   <Head title="Editar Cliente" />
   <AuthenticatedLayout>
-
-
     <div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
       <!-- Card -->
       <div class="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-gray-200">
