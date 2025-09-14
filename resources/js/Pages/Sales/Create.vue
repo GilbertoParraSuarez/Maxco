@@ -48,7 +48,7 @@ const addLine = () => {
     cantidad: 1,
     precio_unitario: 0,
     descuento: 0,
-    impuesto: 12,
+    impuesto: 15,
     unidad: 'UND'
   })
 }

@@ -53,7 +53,7 @@ class SalesController extends Controller
             'defaults'  => [
                 'moneda' => 'USD',
                 'tasa_cambio' => 1.0000,
-                'impuesto_porcentaje' => 12,
+                'impuesto_porcentaje' => 15,
             ],
         ]);
     }
@@ -131,7 +131,7 @@ class SalesController extends Controller
                         $descuento_val = min($desc, $subtotal);
                         $base_imponible = $subtotal - $descuento_val;
 
-                        $imp_pct = isset($line['impuesto']) ? (float)$line['impuesto'] : 12.0;
+                        $imp_pct = isset($line['impuesto']) ? (float)$line['impuesto'] : 15.0;
                         
                         // Validar porcentaje de impuesto razonable
                         if ($imp_pct < 0 || $imp_pct > 100) {
